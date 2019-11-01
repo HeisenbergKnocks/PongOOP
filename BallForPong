@@ -1,0 +1,42 @@
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+
+
+public class BallForPong {
+
+	//properties
+	private int radius;
+
+	//position
+	private int b_x; //x position
+	private int b_y; //y position
+
+	//speed and direction
+	private int b_vx; //vel in the x direction
+	private int b_vy; //vel in y direction
+	
+	public void paint(Graphics g) {
+
+		//draw table
+		g.setColor(Color.BLACK);
+		//drawRect does not fill rectangle
+		//draw the ball based on its properties (variables)
+		g.fillOval(b_x, b_y, radius, radius);
+
+	}
+	
+	public BallForPong(){
+		radius = 40;
+		b_x = 0;
+		b_y = 0;
+		b_vx = 6;
+		b_vy = 8;
+	}
+	
+	public void move(){
+		b_x += b_vx;
+		b_y += b_vy;
+	}
+	
+}
