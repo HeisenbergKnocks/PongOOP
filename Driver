@@ -1,0 +1,230 @@
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+/*Please give feedback! Comment Section for Users:
+*
+* Brandon: paddles kinda slow, but it ok coool
+* Runs a bit slow and score is given on wrong side. Still works
+* Wrong score side
+* cool color scheme
+* very good, but the score is backwards and the paddles barely move
+* very good nishe
+* as previously stated by others, score is flipped, otherwise it works well
+* A little slow
+* Increase paddle speed
+*
+*
+* All problems above have been fixed!
+* Paddle speed, although, has not been changed; the ball speed has so it's actually more fun and challenging to play
+*
+*/
+
+ 
+
+public class Driver extends JPanel implements ActionListener, KeyListener {
+
+private static final long serialVersionUID = 1L;
+
+BallForPong ball = new BallForPong();
+PaddleForPong paddle = new PaddleForPong();
+
+int lpw = radius; //same as the width of a ball?
+int lph = lpw * 4; // 4 times taller than it is wide
+int lpx = 10; //starting x position of paddle
+int lpy = 200; //staring y position of paddle
+
+int rpw = radius;
+int rph = rpw * 4;
+int rpx = 843;
+int rpy = 200;
+
+int lscore = 0;
+int rscore = 0;
+
+public void paint(Graphics g) {
+
+super.paintComponent(g);
+ball.paint(g);
+
+
+
+//set color of paint for the paddle
+g.setColor(Color.magenta);
+
+g.drawRect(lpx, lpy, lpw, lph);
+
+g.drawRect(rpx, rpy, rpw, rph);
+//draw the ball based on its properties (variables)
+g.fillOval(b_x, b_y, radius, radius);
+//drawOval does not fill oval, fillOval will fill Oval
+
+g.setColor(Color.gray);
+g.setFont(new Font("Verdana", 0, 80));
+g.drawString(lscore + "", 200, 400); //draw the value of x
+g.drawString(rscore + "", 600, 400);
+}
+
+//update data/variables
+public void update(){
+b_x = b_x + b_vx;
+b_y = b_y + b_vy;
+
+
+//collision checking
+//check if bx is in the range of he paddles left and right most side
+if(b_x >= lpx && b_x <= lpx + lpw) { //check if b_x is in the range [lpx , lpx+lpw]
+//is -1 in the range [-50 , 10]
+//found out that it's in the proper x range
+//check if its overlapping in the y range
+if(b_y >= lpy && b_y <= lpy + lph) {
+b_vx = -b_vx; //ball needs to bounce aka reverses direction
+b_x = lpx + lpw + 1;
+}
+
+}
+
+if(b_x <= rpx && b_x >= rpx - rpw) { //same function as above if statements (both regarding collision)
+
+if(b_y >= rpy && b_y <= rpy + rph) {
+b_vx = -b_vx;
+b_x = rpx - rpw + 1;
+}
+
+}
+
+if (b_x < 0) { //if the ball completely reaches the left wall, then a point will be awarded to the opponent and the ball will return to the center
+rscore = rscore + 1;
+b_x = 418;
+b_y = 418;
+}
+
+if (b_x > 840) { //if the ball completely reaches the right wall, then a point will be awarded to the opponent and the ball will return to the center
+lscore = lscore + 1;
+b_x = 418;
+b_y = 318;
+}
+
+
+
+//bounce off the bottom
+if (b_y > 520) {
+b_vy = -b_vy; //reverse the direction of the balls (velocity)
+}
+
+//code to bounce off the top
+if (b_y < 0) {
+b_vy = -b_vy;
+}
+
+//code to bounce off the left side
+if (b_x < 0) {
+b_vx = -b_vx;
+
+}
+
+//code to bounce off the right side
+if (b_x > 840) {
+b_vx = -b_vx;
+}
+
+
+//add additional if statements and checks
+//to make the ball bounce off of the four sides
+}//end of update function/method
+
+
+@Override
+public void actionPerformed(ActionEvent arg0) {
+// TODO Auto-generated method stub
+
+update();
+repaint();
+
+}
+public static void main(String[] arg) {
+Driver d = new Driver();
+}
+
+public Driver(){
+
+JFrame f = new JFrame();
+f.setTitle("Pong");
+f.setSize(table_width,table_height);
+f.setBackground(Color.BLACK);
+f.setResizable(false);
+
+//add code so the frame listens for Keyboard Inputs
+f.addKeyListener(this);
+f.add(this);
+t = new Timer(17,this);
+t.start();
+f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+f.setVisible(true);
+}
+Timer t;
+
+ 
+
+@Override
+public void keyPressed(KeyEvent e) {
+//pressed
+System.out.println(e.getKeyCode());
+
+//use an if-statement
+//check if the key that was pressed is 87 for 'w'
+
+if(lpy >= 10) { //determines if left paddle is >= 10; if it is, then movement is allowed
+if(e.getKeyCode()==87) {
+//they pressed w
+lpy = lpy - 10;
+
+}
+}
+
+//add additional if statements to detect 'a', 's', 'd'
+//have the paddle move with 'w' and 's' up and down respectively
+
+if(lpy + rph <= 550) { //determines if left paddle is <= 560; if it is, then movement is allowed
+if(e.getKeyCode()==83) {
+//they pressed s
+lpy = lpy + 10;
+}
+}
+
+if (rpy >= 10) {
+if(e.getKeyCode()==38) {
+//they pressed up arrow key
+rpy = rpy - 10;
+}
+}
+
+if (rpy + rph <= 550) {
+if(e.getKeyCode()==40) {
+//they pressed down arrow key
+rpy = rpy + 10;
+}
+}
+
+
+}
+@Override
+public void keyReleased(KeyEvent e) {
+//a key was released
+
+}
+
+@Override
+public void keyTyped(KeyEvent e) {
+//pressed AND released
+
+}
+}
