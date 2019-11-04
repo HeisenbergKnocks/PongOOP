@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 
 public class BallForPong {
@@ -37,6 +38,59 @@ public class BallForPong {
 	public void move(){
 		b_x += b_vx;
 		b_y += b_vy;
+	}
+	
+	
+	public boolean collided(PaddleForPong p){
+		
+		//ball
+		Rectangle b = new Rectangle(b_x, b_y, radius * 2, radius * 2);
+		
+		//paddle
+		Rectangle pad = new Rectangle(p.getPx(), p.getPy(), p.getPw(), p.getPh());
+		
+		return b.intersects(pad);
+		
+	}
+
+	public int getRadius() {
+		return radius;
+	}
+
+	public void setRadius(int radius) {
+		this.radius = radius;
+	}
+
+	public int getB_x() {
+		return b_x;
+	}
+
+	public void setB_x(int b_x) {
+		this.b_x = b_x;
+	}
+
+	public int getB_y() {
+		return b_y;
+	}
+
+	public void setB_y(int b_y) {
+		this.b_y = b_y;
+	}
+
+	public int getB_vx() {
+		return b_vx;
+	}
+
+	public void setB_vx(int b_vx) {
+		this.b_vx = b_vx;
+	}
+
+	public int getB_vy() {
+		return b_vy;
+	}
+
+	public void setB_vy(int b_vy) {
+		this.b_vy = b_vy;
 	}
 	
 }
