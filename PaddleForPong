@@ -9,7 +9,8 @@ public class PaddleForPong {
 	private int py; //staring y position of paddle
 	private int pw; //same as the width of a ball?
 	private int ph; // 4 times taller than it is wide
-	
+	private int p_vy; //y velocity of paddle
+	private int score; 
 	
 	public void paint(Graphics g) {
 
@@ -19,13 +20,65 @@ public class PaddleForPong {
 		
 	}
 	
-	public PaddleForPong(int px, int py, int pw, int ph) {
-		px =   
-		py = 
-		pw = 
-		ph = 
-		
+	public PaddleForPong(){
+		px = 0;
+		py = 0;
+		pw = 40;
+		ph = 160;
+		p_vy = 0;
+		score = 0;
+	}
 	
+	public PaddleForPong(int newpx, int newpy, int newpw, int newph, int newp_vy, int newscore) {
+		super();
+		px = newpx;
+		py = newpy;
+		pw = newpw;
+		ph = newph;
+		p_vy = newp_vy;
+		
+	}
+
+	public void move() {
+		py += p_vy;
+	}
+	
+	
+	
+	public void setVy(int newVy){
+		p_vy = newVy;
+	}
+	
+	public int getPx() {
+		return px;
+	}
+
+	public void setPx(int px) {
+		this.px = px;
+	}
+
+	public int getPy() {
+		return py;
+	}
+
+	public void setPy(int py) {
+		this.py = py;
+	}
+
+	public int getPw() {
+		return pw;
+	}
+
+	public void setPw(int pw) {
+		this.pw = pw;
+	}
+
+	public int getPh() {
+		return ph;
+	}
+
+	public void setPh(int ph) {
+		this.ph = ph;
 	}
 	
 }
