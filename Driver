@@ -34,50 +34,30 @@ public class Driver extends JPanel implements ActionListener, KeyListener {
 
 private static final long serialVersionUID = 1L;
 
+	int table_height = 600;
+	int table_width = 900;
+	
 BallForPong ball = new BallForPong();
-PaddleForPong paddle = new PaddleForPong();
-
-int lpw = radius; //same as the width of a ball?
-int lph = lpw * 4; // 4 times taller than it is wide
-int lpx = 10; //starting x position of paddle
-int lpy = 200; //staring y position of paddle
-
-int rpw = radius;
-int rph = rpw * 4;
-int rpx = 843;
-int rpy = 200;
-
-int lscore = 0;
-int rscore = 0;
-
-public void paint(Graphics g) {
-
-super.paintComponent(g);
-ball.paint(g);
-
-
-
-//set color of paint for the paddle
-g.setColor(Color.magenta);
-
-g.drawRect(lpx, lpy, lpw, lph);
-
-g.drawRect(rpx, rpy, rpw, rph);
-//draw the ball based on its properties (variables)
-g.fillOval(b_x, b_y, radius, radius);
-//drawOval does not fill oval, fillOval will fill Oval
+PaddleForPong left = new PaddleForPong(20, 20, 40, 160, 0, 0);
+PaddleForPong right = new PaddleForPong(850, 20, 40, 160, 0, 0);
 
 g.setColor(Color.gray);
 g.setFont(new Font("Verdana", 0, 80));
 g.drawString(lscore + "", 200, 400); //draw the value of x
 g.drawString(rscore + "", 600, 400);
-}
+
 
 //update data/variables
 public void update(){
-b_x = b_x + b_vx;
-b_y = b_y + b_vy;
+	
+	b_x = b_x + b_vx;
+	b_y = b_y + b_vy;
 
+	//ask ball if collided
+	if(ball.collided(left)){
+		//use setter to set new vx
+		ball.setB_vx(-ball.getB_vx()); //use old version of vx by calling getter
+	}
 
 //collision checking
 //check if bx is in the range of he paddles left and right most side
@@ -176,43 +156,40 @@ Timer t;
 
 @Override
 public void keyPressed(KeyEvent e) {
-//pressed
-System.out.println(e.getKeyCode());
+	//pressed
+	System.out.println(e.getKeyCode());
 
-//use an if-statement
-//check if the key that was pressed is 87 for 'w'
+	if(lpy >= 10) { //determines if left paddle is >= 10; if it is, then movement is allowed
+		if(e.getKeyCode()==87) {
+			//they pressed w
+			lpy = lpy - 10;
 
-if(lpy >= 10) { //determines if left paddle is >= 10; if it is, then movement is allowed
-if(e.getKeyCode()==87) {
-//they pressed w
-lpy = lpy - 10;
-
-}
-}
+		}
+	}
 
 //add additional if statements to detect 'a', 's', 'd'
 //have the paddle move with 'w' and 's' up and down respectively
 
-if(lpy + rph <= 550) { //determines if left paddle is <= 560; if it is, then movement is allowed
-if(e.getKeyCode()==83) {
-//they pressed s
-lpy = lpy + 10;
-}
-}
+	if(lpy + rph <= 550) { //determines if left paddle is <= 560; if it is, then movement is allowed
+		if(e.getKeyCode()==83) {
+			//they pressed s
+			lpy = lpy + 10;
+		}
+	}
 
-if (rpy >= 10) {
-if(e.getKeyCode()==38) {
-//they pressed up arrow key
-rpy = rpy - 10;
-}
-}
+	if (rpy >= 10) {
+		if(e.getKeyCode()==38) {
+	//they pressed up arrow key
+			rpy = rpy - 10;
+		}
+	}
 
-if (rpy + rph <= 550) {
-if(e.getKeyCode()==40) {
-//they pressed down arrow key
-rpy = rpy + 10;
-}
-}
+	if (rpy + rph <= 550) {
+		if(e.getKeyCode()==40) {
+			//they pressed down arrow key
+			rpy = rpy + 10;
+		}
+	}
 
 
 }
