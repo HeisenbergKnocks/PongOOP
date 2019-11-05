@@ -26,10 +26,10 @@ public class PaddleForPong {
 		pw = 40;
 		ph = 160;
 		p_vy = 0;
-		score = 0;
+		//score = 0;
 	}
 	
-	public PaddleForPong(int newpx, int newpy, int newpw, int newph, int newp_vy, int newscore) {
+	public PaddleForPong(int newpx, int newpy, int newpw, int newph, int newp_vy /*int newscore */) {
 		super();
 		px = newpx;
 		py = newpy;
