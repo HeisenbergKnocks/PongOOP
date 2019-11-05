@@ -20,7 +20,7 @@ public class BallForPong {
 	public void paint(Graphics g) {
 
 		//draw table
-		g.setColor(Color.BLACK);
+		g.setColor(Color.ORANGE);
 		//drawRect does not fill rectangle
 		//draw the ball based on its properties (variables)
 		g.fillOval(b_x, b_y, radius, radius);
