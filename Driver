@@ -23,13 +23,22 @@ private static final long serialVersionUID = 1L;
 	
 	BallForPong ball = new BallForPong();
 	PaddleForPong left = new PaddleForPong(20, 20, 40, 160, 0);
-	PaddleForPong right = new PaddleForPong(850, 20, 40, 160, 0);
+	PaddleForPong right = new PaddleForPong(840, 20, 40, 160, 0);
 
 public void paint(Graphics g) {
+	
+	super.paintComponent(g);
+	
+	g.setColor(Color.WHITE);
+	g.fillRect(0, 0, table_width, table_height);
+	
 	g.setColor(Color.gray);
 	g.setFont(new Font("Verdana", 0, 80));
 	g.drawString(lscore + "", 200, 400); //draw the value of x
 	g.drawString(rscore + "", 600, 400);
+	left.paint(g);
+	right.paint(g);
+	ball.paint(g);
 }
 
 
@@ -37,9 +46,14 @@ public void paint(Graphics g) {
 //update data/variables
 public void update(){
 	
+	left.move();
+	right.move();
+	
+	
 	ball.setB_x(ball.getB_x() + ball.getB_vx());
 	ball.setB_y(ball.getB_y() + ball.getB_vy());
 
+	
 	//ask ball if collided
 	if(ball.collided(left)){
 		//use setter to set new vx
@@ -52,20 +66,19 @@ public void update(){
 	}
 	
 	
-	
 	if (ball.getB_x() < 0) { //if the ball completely reaches the left wall, then a point will be awarded to the opponent and the ball will return to the center
-		lscore += 1;
+		rscore += 1;
 		ball.setB_x(418); 
 		ball.setB_y(318);
 	}
-
+	
 	if (ball.getB_x() > 840) { //if the ball completely reaches the right wall, then a point will be awarded to the opponent and the ball will return to the center
 		lscore += 1;
 		ball.setB_x(418);
 		ball.setB_y(318);
 	}
 
-
+	
 	//bounce off the bottom
 	if (ball.getB_y() > 520) {
 		ball.setB_vy(-ball.getB_vy()); //reverse the direction of the balls (velocity)
@@ -85,8 +98,7 @@ public void update(){
 	if (ball.getB_x() > 840) {
 		ball.setB_vx(-ball.getB_vx());
 	}
-
-
+	
 }//end of update function/method
 
 
@@ -98,6 +110,7 @@ update();
 repaint();
 
 }
+
 public static void main(String[] arg) {
 Driver d = new Driver();
 }
@@ -125,67 +138,57 @@ Timer t;
 @Override
 public void keyPressed(KeyEvent e) {
 	
-	if(left.getPy() >= 10) { //determines if left paddle is >= 10; if it is, then movement is allowed
+	 	//determines if left paddle is >= 10; if it is, then movement is allowed
 		if(e.getKeyCode()==87) {
 			//they pressed w
-			
+			left.setP_vy(-5);
 		}
-	}
 
-	if(left.getPy() + left.getPh() <= 550) { //determines if left paddle is <= 560; if it is, then movement is allowed
+	    //determines if left paddle is <= 560; if it is, then movement is allowed
 		if(e.getKeyCode()==83) {
 			//they pressed s
-			
+			left.setP_vy(5);
 		}
-	}
 
-	if(right.getPy() >= 10) {
 		if(e.getKeyCode()==38) {
 			//they pressed up arrow key
-			
+			right.setP_vy(-5);
 		}
-	}
 
-	if (right.getPy() + right.getPh() <= 550){
 		if(e.getKeyCode()==40) {
 			//they pressed down arrow key
-			
+			right.setP_vy(5);
 		}
-	}
-
-
+		
 }
+
 @Override
 public void keyReleased(KeyEvent e) {
-	//a key was released
-	if(left.getPy() >= 10) { //determines if left paddle is >= 10; if it is, then movement is allowed
+		//a key was released
+	
+		
 		if(e.getKeyCode()==87) {
 			//they pressed w
-			
+			left.setP_vy(0);
 		}
-	}
 
-	if(left.getPy() + left.getPh() <= 550) { //determines if left paddle is <= 560; if it is, then movement is allowed
+		
 		if(e.getKeyCode()==83) {
 			//they pressed s
-			
+			left.setP_vy(0);
 		}
-	}
 
-	if(right.getPy() >= 10) {
+		
 		if(e.getKeyCode()==38) {
 			//they pressed up arrow key
-			
+			right.setP_vy(0);
 		}
-	}
 
-	if (right.getPy() + right.getPh() <= 550){
 		if(e.getKeyCode()==40) {
 			//they pressed down arrow key
-			
+			right.setP_vy(0);
 		}
-	}
-	
+		
 }
 
 
