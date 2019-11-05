@@ -29,8 +29,8 @@ public class BallForPong {
 	
 	public BallForPong(){
 		radius = 40;
-		b_x = 0;
-		b_y = 0;
+		b_x = 418;
+		b_y = 318;
 		b_vx = 6;
 		b_vy = 8;
 	}
