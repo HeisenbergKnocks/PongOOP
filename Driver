@@ -10,26 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-/*Please give feedback! Comment Section for Users:
-*
-* Brandon: paddles kinda slow, but it ok coool
-* Runs a bit slow and score is given on wrong side. Still works
-* Wrong score side
-* cool color scheme
-* very good, but the score is backwards and the paddles barely move
-* very good nishe
-* as previously stated by others, score is flipped, otherwise it works well
-* A little slow
-* Increase paddle speed
-*
-*
-* All problems above have been fixed!
-* Paddle speed, although, has not been changed; the ball speed has so it's actually more fun and challenging to play
-*
-*/
-
  
-
 public class Driver extends JPanel implements ActionListener, KeyListener {
 
 private static final long serialVersionUID = 1L;
@@ -37,88 +18,75 @@ private static final long serialVersionUID = 1L;
 	int table_height = 600;
 	int table_width = 900;
 	
-BallForPong ball = new BallForPong();
-PaddleForPong left = new PaddleForPong(20, 20, 40, 160, 0, 0);
-PaddleForPong right = new PaddleForPong(850, 20, 40, 160, 0, 0);
+	int lscore = 0;
+	int rscore = 0;
+	
+	BallForPong ball = new BallForPong();
+	PaddleForPong left = new PaddleForPong(20, 20, 40, 160, 0);
+	PaddleForPong right = new PaddleForPong(850, 20, 40, 160, 0);
 
-g.setColor(Color.gray);
-g.setFont(new Font("Verdana", 0, 80));
-g.drawString(lscore + "", 200, 400); //draw the value of x
-g.drawString(rscore + "", 600, 400);
+public void paint(Graphics g) {
+	g.setColor(Color.gray);
+	g.setFont(new Font("Verdana", 0, 80));
+	g.drawString(lscore + "", 200, 400); //draw the value of x
+	g.drawString(rscore + "", 600, 400);
+}
+
 
 
 //update data/variables
 public void update(){
 	
-	b_x = b_x + b_vx;
-	b_y = b_y + b_vy;
+	ball.setB_x(ball.getB_x() + ball.getB_vx());
+	ball.setB_y(ball.getB_y() + ball.getB_vy());
 
 	//ask ball if collided
 	if(ball.collided(left)){
 		//use setter to set new vx
 		ball.setB_vx(-ball.getB_vx()); //use old version of vx by calling getter
 	}
+	
+	if(ball.collided(right)){
+		//use setter to set new vx
+		ball.setB_vx(-ball.getB_vx()); //use old version of vx by calling getter
+	}
+	
+	
+	
+	if (ball.getB_x() < 0) { //if the ball completely reaches the left wall, then a point will be awarded to the opponent and the ball will return to the center
+		lscore += 1;
+		ball.setB_x(418); 
+		ball.setB_y(318);
+	}
 
-//collision checking
-//check if bx is in the range of he paddles left and right most side
-if(b_x >= lpx && b_x <= lpx + lpw) { //check if b_x is in the range [lpx , lpx+lpw]
-//is -1 in the range [-50 , 10]
-//found out that it's in the proper x range
-//check if its overlapping in the y range
-if(b_y >= lpy && b_y <= lpy + lph) {
-b_vx = -b_vx; //ball needs to bounce aka reverses direction
-b_x = lpx + lpw + 1;
-}
-
-}
-
-if(b_x <= rpx && b_x >= rpx - rpw) { //same function as above if statements (both regarding collision)
-
-if(b_y >= rpy && b_y <= rpy + rph) {
-b_vx = -b_vx;
-b_x = rpx - rpw + 1;
-}
-
-}
-
-if (b_x < 0) { //if the ball completely reaches the left wall, then a point will be awarded to the opponent and the ball will return to the center
-rscore = rscore + 1;
-b_x = 418;
-b_y = 418;
-}
-
-if (b_x > 840) { //if the ball completely reaches the right wall, then a point will be awarded to the opponent and the ball will return to the center
-lscore = lscore + 1;
-b_x = 418;
-b_y = 318;
-}
+	if (ball.getB_x() > 840) { //if the ball completely reaches the right wall, then a point will be awarded to the opponent and the ball will return to the center
+		lscore += 1;
+		ball.setB_x(418);
+		ball.setB_y(318);
+	}
 
 
+	//bounce off the bottom
+	if (ball.getB_y() > 520) {
+		ball.setB_vy(-ball.getB_vy()); //reverse the direction of the balls (velocity)
+	}
 
-//bounce off the bottom
-if (b_y > 520) {
-b_vy = -b_vy; //reverse the direction of the balls (velocity)
-}
+	//code to bounce off the top
+	if (ball.getB_y() < 0) {
+		ball.setB_vy(-ball.getB_vy());
+	}
 
-//code to bounce off the top
-if (b_y < 0) {
-b_vy = -b_vy;
-}
+	//code to bounce off the left side
+	if (ball.getB_x() < 0) {
+		ball.setB_vx(-ball.getB_vx());
+	}
 
-//code to bounce off the left side
-if (b_x < 0) {
-b_vx = -b_vx;
-
-}
-
-//code to bounce off the right side
-if (b_x > 840) {
-b_vx = -b_vx;
-}
+	//code to bounce off the right side
+	if (ball.getB_x() > 840) {
+		ball.setB_vx(-ball.getB_vx());
+	}
 
 
-//add additional if statements and checks
-//to make the ball bounce off of the four sides
 }//end of update function/method
 
 
@@ -156,38 +124,32 @@ Timer t;
 
 @Override
 public void keyPressed(KeyEvent e) {
-	//pressed
-	System.out.println(e.getKeyCode());
-
-	if(lpy >= 10) { //determines if left paddle is >= 10; if it is, then movement is allowed
+	
+	if(left.getPy() >= 10) { //determines if left paddle is >= 10; if it is, then movement is allowed
 		if(e.getKeyCode()==87) {
 			//they pressed w
-			lpy = lpy - 10;
-
+			
 		}
 	}
 
-//add additional if statements to detect 'a', 's', 'd'
-//have the paddle move with 'w' and 's' up and down respectively
-
-	if(lpy + rph <= 550) { //determines if left paddle is <= 560; if it is, then movement is allowed
+	if(left.getPy() + left.getPh() <= 550) { //determines if left paddle is <= 560; if it is, then movement is allowed
 		if(e.getKeyCode()==83) {
 			//they pressed s
-			lpy = lpy + 10;
+			
 		}
 	}
 
-	if (rpy >= 10) {
+	if(right.getPy() >= 10) {
 		if(e.getKeyCode()==38) {
-	//they pressed up arrow key
-			rpy = rpy - 10;
+			//they pressed up arrow key
+			
 		}
 	}
 
-	if (rpy + rph <= 550) {
+	if (right.getPy() + right.getPh() <= 550){
 		if(e.getKeyCode()==40) {
 			//they pressed down arrow key
-			rpy = rpy + 10;
+			
 		}
 	}
 
@@ -195,13 +157,44 @@ public void keyPressed(KeyEvent e) {
 }
 @Override
 public void keyReleased(KeyEvent e) {
-//a key was released
+	//a key was released
+	if(left.getPy() >= 10) { //determines if left paddle is >= 10; if it is, then movement is allowed
+		if(e.getKeyCode()==87) {
+			//they pressed w
+			
+		}
+	}
 
+	if(left.getPy() + left.getPh() <= 550) { //determines if left paddle is <= 560; if it is, then movement is allowed
+		if(e.getKeyCode()==83) {
+			//they pressed s
+			
+		}
+	}
+
+	if(right.getPy() >= 10) {
+		if(e.getKeyCode()==38) {
+			//they pressed up arrow key
+			
+		}
+	}
+
+	if (right.getPy() + right.getPh() <= 550){
+		if(e.getKeyCode()==40) {
+			//they pressed down arrow key
+			
+		}
+	}
+	
 }
+
+
 
 @Override
 public void keyTyped(KeyEvent e) {
-//pressed AND released
-
+	// TODO Auto-generated method stub
+	
 }
+
+
 }
