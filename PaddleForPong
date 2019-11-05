@@ -26,10 +26,9 @@ public class PaddleForPong {
 		pw = 40;
 		ph = 160;
 		p_vy = 0;
-		//score = 0;
 	}
 	
-	public PaddleForPong(int newpx, int newpy, int newpw, int newph, int newp_vy /*int newscore */) {
+	public PaddleForPong(int newpx, int newpy, int newpw, int newph, int newp_vy) {
 		super();
 		px = newpx;
 		py = newpy;
@@ -39,11 +38,21 @@ public class PaddleForPong {
 		
 	}
 
+	
+	
 	public void move() {
 		py += p_vy;
 	}
 	
 	
+	
+	public int getP_vy() {
+		return p_vy;
+	}
+
+	public void setP_vy(int p_vy) {
+		this.p_vy = p_vy;
+	}
 	
 	public void setVy(int newVy){
 		p_vy = newVy;
