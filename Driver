@@ -10,194 +10,223 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
- 
 public class Driver extends JPanel implements ActionListener, KeyListener {
 
-private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	int table_height = 600;
 	int table_width = 900;
-	
+
 	int lscore = 0;
 	int rscore = 0;
-	
+
 	BallForPong ball = new BallForPong();
 	PaddleForPong left = new PaddleForPong(20, 20, 40, 160, 0);
 	PaddleForPong right = new PaddleForPong(840, 20, 40, 160, 0);
 
-public void paint(Graphics g) {
-	
-	super.paintComponent(g);
-	
-	g.setColor(Color.WHITE);
-	g.fillRect(0, 0, table_width, table_height);
-	
-	g.setColor(Color.gray);
-	g.setFont(new Font("Verdana", 0, 80));
-	g.drawString(lscore + "", 200, 400); //draw the value of x
-	g.drawString(rscore + "", 600, 400);
-	left.paint(g);
-	right.paint(g);
-	ball.paint(g);
-}
+	public void paint(Graphics g) {
 
+		super.paintComponent(g);
 
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, table_width, table_height);
 
-//update data/variables
-public void update(){
-	
-	left.move();
-	right.move();
-	
-	
-	ball.setB_x(ball.getB_x() + ball.getB_vx());
-	ball.setB_y(ball.getB_y() + ball.getB_vy());
-
-	
-	//ask ball if collided
-	if(ball.collided(left)){
-		//use setter to set new vx
-		ball.setB_vx(-ball.getB_vx()); //use old version of vx by calling getter
-	}
-	
-	if(ball.collided(right)){
-		//use setter to set new vx
-		ball.setB_vx(-ball.getB_vx()); //use old version of vx by calling getter
-	}
-	
-	
-	if (ball.getB_x() < 0) { //if the ball completely reaches the left wall, then a point will be awarded to the opponent and the ball will return to the center
-		rscore += 1;
-		ball.setB_x(418); 
-		ball.setB_y(318);
-	}
-	
-	if (ball.getB_x() > 840) { //if the ball completely reaches the right wall, then a point will be awarded to the opponent and the ball will return to the center
-		lscore += 1;
-		ball.setB_x(418);
-		ball.setB_y(318);
+		g.setColor(Color.gray);
+		g.setFont(new Font("Verdana", 0, 80));
+		g.drawString(lscore + "", 200, 400); // draw the value of x
+		g.drawString(rscore + "", 600, 400);
+		left.paint(g);
+		right.paint(g);
+		ball.paint(g);
 	}
 
-	
-	//bounce off the bottom
-	if (ball.getB_y() > 520) {
-		ball.setB_vy(-ball.getB_vy()); //reverse the direction of the balls (velocity)
-	}
+	// update data/variables
+	public void update() {
+		
+		left.move();
+		right.move();
 
-	//code to bounce off the top
-	if (ball.getB_y() < 0) {
-		ball.setB_vy(-ball.getB_vy());
-	}
+		ball.setB_x(ball.getB_x() + ball.getB_vx());
+		ball.setB_y(ball.getB_y() + ball.getB_vy());
 
-	//code to bounce off the left side
-	if (ball.getB_x() < 0) {
-		ball.setB_vx(-ball.getB_vx());
-	}
-
-	//code to bounce off the right side
-	if (ball.getB_x() > 840) {
-		ball.setB_vx(-ball.getB_vx());
-	}
-	
-}//end of update function/method
-
-
-@Override
-public void actionPerformed(ActionEvent arg0) {
-// TODO Auto-generated method stub
-
-update();
-repaint();
-
-}
-
-public static void main(String[] arg) {
-Driver d = new Driver();
-}
-
-public Driver(){
-
-JFrame f = new JFrame();
-f.setTitle("Pong");
-f.setSize(table_width,table_height);
-f.setBackground(Color.BLACK);
-f.setResizable(false);
-
-//add code so the frame listens for Keyboard Inputs
-f.addKeyListener(this);
-f.add(this);
-t = new Timer(17,this);
-t.start();
-f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-f.setVisible(true);
-}
-Timer t;
-
- 
-
-@Override
-public void keyPressed(KeyEvent e) {
-	
-	 	//determines if left paddle is >= 10; if it is, then movement is allowed
-		if(e.getKeyCode()==87) {
-			//they pressed w
-			left.setP_vy(-5);
+		// ask ball if collided
+		if (ball.collided(left)) {
+			// use setter to set new vx
+			ball.setB_vx(-ball.getB_vx()); // use old version of vx by calling
+											// getter
 		}
 
-	    //determines if left paddle is <= 560; if it is, then movement is allowed
-		if(e.getKeyCode()==83) {
-			//they pressed s
-			left.setP_vy(5);
+		if (ball.collided(right)) {
+			// use setter to set new vx
+			ball.setB_vx(-ball.getB_vx()); // use old version of vx by calling
+											// getter
 		}
 
-		if(e.getKeyCode()==38) {
-			//they pressed up arrow key
-			right.setP_vy(-5);
+		if (ball.getB_x() < 0) { // if the ball completely reaches the left
+									// wall, then a point will be awarded to the
+									// opponent and the ball will return to the
+									// center
+			rscore += 1;
+			ball.setB_x(418);
+			ball.setB_y(318);
 		}
 
-		if(e.getKeyCode()==40) {
-			//they pressed down arrow key
-			right.setP_vy(5);
+		if (ball.getB_x() > 840) { // if the ball completely reaches the right
+									// wall, then a point will be awarded to the
+									// opponent and the ball will return to the
+									// center
+			lscore += 1;
+			ball.setB_x(418);
+			ball.setB_y(318);
+		}
+
+		// bounce off the bottom
+		if (ball.getB_y() > 520) {
+			ball.setB_vy(-ball.getB_vy()); // reverse the direction of the balls
+											// (velocity)
+		}
+
+		// code to bounce off the top
+		if (ball.getB_y() < 0) {
+			ball.setB_vy(-ball.getB_vy());
 		}
 		
-}
+		// code to bounce off the left side
+		if (ball.getB_x() < 0) {
+			ball.setB_vx(-ball.getB_vx());
+		}
 
-@Override
-public void keyReleased(KeyEvent e) {
-		//a key was released
-	
+		// code to bounce off the right side
+		if (ball.getB_x() > 840) {
+			ball.setB_vx(-ball.getB_vx());
+		}
 		
-		if(e.getKeyCode()==87) {
-			//they pressed w
+		
+		if(left.getPy() <= 5){
 			left.setP_vy(0);
 		}
-
 		
-		if(e.getKeyCode()==83) {
-			//they pressed s
+		if(left.getPy() + left.getPh() >= 570){
 			left.setP_vy(0);
 		}
-
 		
-		if(e.getKeyCode()==38) {
-			//they pressed up arrow key
-			right.setP_vy(0);
-		}
-
-		if(e.getKeyCode()==40) {
-			//they pressed down arrow key
+		if(right.getPy() <= 5){
 			right.setP_vy(0);
 		}
 		
-}
+		
+		if(right.getPy() + right.getPh() >= 570){
+			right.setP_vy(0);
+		}
+		
+	}// end of update function/method
 
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
 
+		update();
+		repaint();
 
-@Override
-public void keyTyped(KeyEvent e) {
-	// TODO Auto-generated method stub
-	
-}
+	}
 
+	public static void main(String[] arg) {
+		Driver d = new Driver();
+	}
+
+	public Driver() {
+
+		JFrame f = new JFrame();
+		f.setTitle("Pong");
+		f.setSize(table_width, table_height);
+		f.setBackground(Color.BLACK);
+		f.setResizable(false);
+
+		// add code so the frame listens for Keyboard Inputs
+		f.addKeyListener(this);
+		f.add(this);
+		t = new Timer(17, this);
+		t.start();
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+	}
+
+	Timer t;
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+
+		// determines if left paddle is >= 10; if it is, then movement is
+		// allowed
+		if(left.getPy() > 5){
+			if (e.getKeyCode() == 87) {
+				// they pressed w
+				left.setP_vy(-5);
+			}
+		}
+		
+		// determines if left paddle is <= 560; if it is, then movement is
+		// allowed
+		if(left.getPy() + left.getPh() < 570){
+			if (e.getKeyCode() == 83) {
+				// they pressed s
+				left.setP_vy(5);
+			}
+		}
+		
+		if(right.getPy() > 5){
+			if (e.getKeyCode() == 38) {
+				// they pressed up arrow key
+				right.setP_vy(-5);
+			}
+		}
+		
+		if(right.getPy() + right.getPh() < 570){
+			if (e.getKeyCode() == 40) {
+				// they pressed down arrow key
+				right.setP_vy(5);
+			}
+		}
+			
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// a key was released
+		if(left.getPy() > 5){
+			if(e.getKeyCode() == 87) {
+				// they pressed w
+				left.setP_vy(0);
+			}
+		}
+		
+		if(left.getPy() + left.getPh() < 570){
+			if (e.getKeyCode() == 83) {
+				// they pressed s
+				left.setP_vy(0);
+			}
+		}
+		
+		if(right.getPy() > 5){
+			if (e.getKeyCode() == 38) {
+				// they pressed up arrow key
+				right.setP_vy(0);
+			}
+		}
+		
+		if(right.getPy() + right.getPh() < 570){
+			if (e.getKeyCode() == 40) {
+				// they pressed down arrow key
+				right.setP_vy(0);
+			}
+		}
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
 
 }
