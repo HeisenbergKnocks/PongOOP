@@ -1,8 +1,5 @@
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-
 
 public class PaddleForPong {
 	private int px; //starting x position of paddle
@@ -10,7 +7,7 @@ public class PaddleForPong {
 	private int pw; //same as the width of a ball?
 	private int ph; // 4 times taller than it is wide
 	private int p_vy; //y velocity of paddle
-	private int score; 
+	
 	
 	public void paint(Graphics g) {
 
@@ -46,18 +43,6 @@ public class PaddleForPong {
 	
 	
 	
-	public int getP_vy() {
-		return p_vy;
-	}
-
-	public void setP_vy(int p_vy) {
-		this.p_vy = p_vy;
-	}
-	
-	public void setVy(int newVy){
-		p_vy = newVy;
-	}
-	
 	public int getPx() {
 		return px;
 	}
@@ -88,6 +73,14 @@ public class PaddleForPong {
 
 	public void setPh(int ph) {
 		this.ph = ph;
+	}
+	
+	public int getP_vy() {
+		return p_vy;
+	}
+
+	public void setP_vy(int p_vy) {
+		this.p_vy = p_vy;
 	}
 	
 }
