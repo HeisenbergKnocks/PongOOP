@@ -41,7 +41,7 @@ public class BallForPong {
 	}
 	
 	
-	public boolean collided(PaddleForPong p){
+	public boolean collidedleft(PaddleForPong p){
 		
 		//ball
 		Rectangle b = new Rectangle(b_x, b_y, radius * 2, radius * 2);
@@ -53,6 +53,19 @@ public class BallForPong {
 		
 	}
 
+	public boolean collidedright(PaddleForPong p){
+		
+		//ball
+		Rectangle b = new Rectangle(b_x, b_y, radius * 2, radius * 2);
+		
+		//paddle
+		Rectangle pad = new Rectangle(p.getPx()+40, p.getPy(), p.getPw(), p.getPh());
+		
+		return b.intersects(pad);
+		
+	}
+
+	
 	public int getRadius() {
 		return radius;
 	}
@@ -92,5 +105,6 @@ public class BallForPong {
 	public void setB_vy(int b_vy) {
 		this.b_vy = b_vy;
 	}
+	
 	
 }
