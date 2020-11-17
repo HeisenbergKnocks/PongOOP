@@ -49,19 +49,21 @@ public class Driver extends JPanel implements ActionListener, KeyListener {
 		ball.setB_x(ball.getB_x() + ball.getB_vx());
 		ball.setB_y(ball.getB_y() + ball.getB_vy());
 
+		
+		
 		// ask ball if collided
-		if (ball.collided(left)) {
+		if (ball.collidedleft(left)) {
 			// use setter to set new vx
-			ball.setB_vx(-ball.getB_vx()); // use old version of vx by calling
-											// getter
+			ball.setB_vx(-ball.getB_vx()); // use old version of vx by calling getter
 		}
 
-		if (ball.collided(right)) {
+		if (ball.collidedright(right)) {
 			// use setter to set new vx
-			ball.setB_vx(-ball.getB_vx()); // use old version of vx by calling
-											// getter
+			ball.setB_vx(-ball.getB_vx()); // use old version of vx by calling getter
 		}
 
+		
+		
 		if (ball.getB_x() < 0) { // if the ball completely reaches the left
 									// wall, then a point will be awarded to the
 									// opponent and the ball will return to the
@@ -71,7 +73,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener {
 			ball.setB_y(318);
 		}
 
-		if (ball.getB_x() > 840) { // if the ball completely reaches the right
+		if (ball.getB_x() > 900) { // if the ball completely reaches the right
 									// wall, then a point will be awarded to the
 									// opponent and the ball will return to the
 									// center
@@ -79,11 +81,12 @@ public class Driver extends JPanel implements ActionListener, KeyListener {
 			ball.setB_x(418);
 			ball.setB_y(318);
 		}
-
+		
+		
+		
 		// bounce off the bottom
 		if (ball.getB_y() > 520) {
-			ball.setB_vy(-ball.getB_vy()); // reverse the direction of the balls
-											// (velocity)
+			ball.setB_vy(-ball.getB_vy()); // reverse the direction of the ball
 		}
 
 		// code to bounce off the top
@@ -91,6 +94,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener {
 			ball.setB_vy(-ball.getB_vy());
 		}
 		
+		/*
 		// code to bounce off the left side
 		if (ball.getB_x() < 0) {
 			ball.setB_vx(-ball.getB_vx());
@@ -101,6 +105,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener {
 			ball.setB_vx(-ball.getB_vx());
 		}
 		
+		*/
 		
 		if(left.getPy() <= 5){
 			left.setP_vy(0);
@@ -113,7 +118,6 @@ public class Driver extends JPanel implements ActionListener, KeyListener {
 		if(right.getPy() <= 5){
 			right.setP_vy(0);
 		}
-		
 		
 		if(right.getPy() + right.getPh() >= 570){
 			right.setP_vy(0);
@@ -222,11 +226,12 @@ public class Driver extends JPanel implements ActionListener, KeyListener {
 		}
 		
 	}
-
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	
 }
